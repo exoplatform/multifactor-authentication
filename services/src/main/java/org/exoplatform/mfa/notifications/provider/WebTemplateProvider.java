@@ -35,8 +35,6 @@ import org.exoplatform.commons.notification.template.TemplateUtils;
 import org.exoplatform.container.xml.InitParams;
 import org.exoplatform.mfa.notifications.plugin.MfaAdminRevocationRequestPlugin;
 import org.exoplatform.mfa.notifications.utils.MfaNotificationUtils;
-import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.log.Log;
 import org.exoplatform.social.core.identity.model.Identity;
 import org.exoplatform.social.core.identity.provider.OrganizationIdentityProvider;
 import org.exoplatform.social.notification.LinkProviderUtils;
