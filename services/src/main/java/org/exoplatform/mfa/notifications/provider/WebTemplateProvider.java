@@ -57,7 +57,6 @@ import org.exoplatform.webui.utils.TimeConvertUtils;
    }
 )
 public class WebTemplateProvider extends TemplateProvider {
-  private static final Log        LOG                          = ExoLogger.getLogger(WebTemplateProvider.class);
 
   /**
    * Defines the template builder for MfaAdminRevocationRequestPlugin

@@ -6,6 +6,9 @@ import org.exoplatform.container.PortalContainer;
 
 public class MfaNotificationUtils {
 
+  private MfaNotificationUtils() {
+    throw new IllegalStateException("Utility class");
+  }
 
   public static final ArgumentLiteral<String> MFA_REVOCATION_REQUEST_REQUESTER =new ArgumentLiteral<>(String.class,
                                                                                                       "mfa_revocation_request_requester");

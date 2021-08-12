@@ -31,11 +31,8 @@ public class MailTemplateProvider extends TemplateProvider {
 
   private final IdentityManager identityManager;
 
-  private final SpaceService spaceService;
-
-  public MailTemplateProvider(InitParams initParams, IdentityManager identityManager, SpaceService spaceService) {
+  public MailTemplateProvider(InitParams initParams, IdentityManager identityManager) {
     super(initParams);
-    this.spaceService = spaceService;
     this.templateBuilders.put(PluginKey.key(MfaAdminRevocationRequestPlugin.ID), mfaAdminRevocationRequest);
     this.identityManager = identityManager;
   }

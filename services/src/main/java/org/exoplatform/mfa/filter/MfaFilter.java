@@ -24,8 +24,8 @@ import org.exoplatform.web.filter.Filter;
 
 public class MfaFilter implements Filter {
   
-  private static String MFA_URI = "/portal/dw/mfa-access";
-  private static final Log          LOG     = ExoLogger.getLogger(MfaFilter.class);
+  private static final String MFA_URI = "/portal/dw/mfa-access";
+  private static final Log    LOG     = ExoLogger.getLogger(MfaFilter.class);
   private List<String> excludedUrls = new ArrayList<>(
       Arrays.asList("/portal/skins",
                     "/portal/scripts",
@@ -45,15 +45,15 @@ public class MfaFilter implements Filter {
     MfaService mfaService = container.getComponentInstanceOfType(MfaService.class);
 
     String requestUri = httpServletRequest.getRequestURI();
-    if (httpServletRequest.getRemoteUser() != null && mfaService.isMfaFeatureActivated() &&
-        excludedUrls.stream().noneMatch(s -> requestUri.startsWith(s)) &&
+    if (httpServletRequest.getRemoteUser() != null &&
+        mfaService.isMfaFeatureActivated() &&
+        excludedUrls.stream().noneMatch(requestUri::startsWith) &&
         (mfaService.isProtectedUri(requestUri) ||
-            mfaService.currentUserIsInProtectedGroup(ConversationState.getCurrent().getIdentity()))) {
-      if (shouldAuthenticateFromSession(session)) {
+            mfaService.currentUserIsInProtectedGroup(ConversationState.getCurrent().getIdentity())) &&
+        shouldAuthenticateFromSession(session)) {
         LOG.debug("Mfa Filter must redirect on page to fill token");
         httpServletResponse.sendRedirect(MFA_URI+"?initialUri=" + requestUri);
         return;
-      }
     }
 
     chain.doFilter(request, response);
@@ -64,8 +64,7 @@ public class MfaFilter implements Filter {
     if (session.getAttribute("mfaValidated") == null) return true;
     if (!(boolean) session.getAttribute("mfaValidated")) return true;
     Instant expiration = (Instant)session.getAttribute("mfaExpiration");
-    if (expiration!=null &&
-        expiration.isBefore(Instant.now())) return true;
-    return false;
+    return expiration != null &&
+        expiration.isBefore(Instant.now());
   }
 }

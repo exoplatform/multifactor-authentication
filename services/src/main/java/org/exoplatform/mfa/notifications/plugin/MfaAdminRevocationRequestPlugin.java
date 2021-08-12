@@ -33,7 +33,6 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.log.Log;
 import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.organization.User;
-import org.exoplatform.social.notification.plugin.SocialNotificationUtils;
 
 public class MfaAdminRevocationRequestPlugin extends BaseNotificationPlugin {
 
