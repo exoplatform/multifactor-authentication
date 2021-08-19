@@ -33,6 +33,7 @@
 
     <!-- Sonar properties -->
     <sonar.organization>exoplatform</sonar.organization>
+    <sonar.javascript.lcov.reportPaths>target/coverage/lcov.info</sonar.javascript.lcov.reportPaths>
   </properties>
   <dependencyManagement>
     <dependencies>
