@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @TemplateConfigs(templates = {
-    @TemplateConfig(pluginId = MfaAdminRevocationRequestPlugin.ID, template = "war:/notifications/templates/templates/push/MfaAdminRevocationRequestPlugin.gtmpl")
+    @TemplateConfig(pluginId = MfaAdminRevocationRequestPlugin.ID, template = "war:/notifications/templates/push/MfaAdminRevocationRequestPlugin.gtmpl")
 })
 public class PushTemplateProvider extends WebTemplateProvider {
 
