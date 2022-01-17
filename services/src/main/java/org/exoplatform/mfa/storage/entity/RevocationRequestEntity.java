@@ -35,7 +35,7 @@ import javax.persistence.Table;
 public class RevocationRequestEntity {
 
   @Id
-  @SequenceGenerator(name = "SEQ_REVOCATION_REQUEST_ID", sequenceName = "SEQ_REVOCATION_REQUEST_ID")
+  @SequenceGenerator(name = "SEQ_REVOCATION_REQUEST_ID", sequenceName = "SEQ_REVOCATION_REQUEST_ID", allocationSize = 1)
   @GeneratedValue(strategy = GenerationType.AUTO, generator = "SEQ_REVOCATION_REQUEST_ID")
   @Column(name = "ID")
   private Long id;
