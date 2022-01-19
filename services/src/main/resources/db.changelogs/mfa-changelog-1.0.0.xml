@@ -52,4 +52,9 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
   <changeSet author="mfa" id="1.0.0-2" dbms="oracle,postgresql">
     <createSequence sequenceName="SEQ_REVOCATION_REQUEST_ID" startValue="1"/>
   </changeSet>
+
+  <changeSet author="mfa" id="1.0.0-3" dbms="hsqldb">
+    <createSequence sequenceName="SEQ_REVOCATION_REQUEST_ID" startValue="1"/>
+  </changeSet>
+
 </databaseChangeLog>
