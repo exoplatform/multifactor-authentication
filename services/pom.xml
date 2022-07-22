@@ -11,6 +11,10 @@
   <packaging>jar</packaging>
   <name>eXo MultiFactor Authentication - Services</name>
   <properties>
+    <rest.api.doc.title>Mfa Rest APIs</rest.api.doc.title>
+    <rest.api.doc.version>1.0</rest.api.doc.version>
+    <rest.api.doc.description>Mfa addon Rest endpoints</rest.api.doc.description>
+
     <exo.test.coverage.ratio>0.64</exo.test.coverage.ratio>
   </properties>
   <dependencies>
@@ -75,6 +79,27 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>io.openapitools.swagger</groupId>
+        <artifactId>swagger-maven-plugin</artifactId>
+        <configuration>
+          <useResourcePackagesChildren>true</useResourcePackagesChildren>
+          <resourcePackages>
+            <locations>org.exoplatform.mfa.rest</locations>
+          </resourcePackages>
+          <swaggerConfig>
+            <info>
+              <title>${rest.api.doc.title}</title>
+              <version>${rest.api.doc.version}</version>
+              <description>${rest.api.doc.description}</description>
+              <license>
+                <url>https://www.gnu.org/licenses/agpl-3.0.en.html</url>
+                <name>AGPL</name>
+              </license>
+            </info>
+          </swaggerConfig>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>com.jcabi</groupId>
         <artifactId>jcabi-maven-plugin</artifactId>
