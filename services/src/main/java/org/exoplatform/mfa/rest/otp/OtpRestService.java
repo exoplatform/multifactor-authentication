@@ -1,10 +1,10 @@
 package org.exoplatform.mfa.rest.otp;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.exoplatform.common.http.HTTPStatus;
 import org.exoplatform.mfa.api.otp.OtpService;
 import org.exoplatform.services.log.ExoLogger;
@@ -23,7 +23,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/otp")
-@Api(value = "/otp")
+@Tag(name = "/otp", description = "Manage otp operations")
 public class OtpRestService implements ResourceContainer {
   
   private static final Log LOG = ExoLogger.getLogger(OtpRestService.class);
@@ -39,15 +39,16 @@ public class OtpRestService implements ResourceContainer {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   @RolesAllowed("users")
-  @ApiOperation(
-      value = "Check if user have activated his OTP",
-      httpMethod = "GET", response = Response.class, produces = MediaType.APPLICATION_JSON
+  @Operation(
+      summary = "Check if user have activated his OTP",
+      method = "GET",
+      description = "Check if user have activated his OTP"
   )
   @ApiResponses(
-      value = { @ApiResponse(code = HTTPStatus.OK, message = "Request fulfilled"),
-          @ApiResponse(code = HTTPStatus.BAD_REQUEST, message = "Invalid query input"),
-          @ApiResponse(code = HTTPStatus.UNAUTHORIZED, message = "Unauthorized operation"),
-          @ApiResponse(code = HTTPStatus.INTERNAL_ERROR, message = "Internal server error"), }
+      value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
+          @ApiResponse(responseCode = "400", description = "Invalid query input"),
+          @ApiResponse(responseCode = "401", description = "Unauthorized operation"),
+          @ApiResponse(responseCode = "500", description = "Internal server error"), }
   )
   public Response checkRegistration(@Context HttpServletRequest request) {
 
@@ -60,15 +61,16 @@ public class OtpRestService implements ResourceContainer {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   @RolesAllowed("users")
-  @ApiOperation(
-      value = "Generate New secret OTP for user",
-      httpMethod = "GET", response = Response.class, produces = MediaType.APPLICATION_JSON
+  @Operation(
+      summary = "Generate New secret OTP for user",
+      method = "GET",
+      description = "Generate New secret OTP for user"
   )
   @ApiResponses(
-      value = { @ApiResponse(code = HTTPStatus.OK, message = "Request fulfilled"),
-          @ApiResponse(code = HTTPStatus.BAD_REQUEST, message = "Invalid query input"),
-          @ApiResponse(code = HTTPStatus.UNAUTHORIZED, message = "Unauthorized operation"),
-          @ApiResponse(code = HTTPStatus.INTERNAL_ERROR, message = "Internal server error"), }
+      value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
+          @ApiResponse(responseCode = "400", description = "Invalid query input"),
+          @ApiResponse(responseCode = "401", description = "Unauthorized operation"),
+          @ApiResponse(responseCode = "500", description = "Internal server error"), }
   )
   public Response generateSecret(@Context HttpServletRequest request) {
 
@@ -88,18 +90,19 @@ public class OtpRestService implements ResourceContainer {
   @GET
   @Produces(MediaType.APPLICATION_JSON)
   @RolesAllowed("users")
-  @ApiOperation(
-      value = "Verify OTP token",
-      httpMethod = "GET", response = Response.class, produces = MediaType.APPLICATION_JSON
+  @Operation(
+      summary = "Verify OTP token",
+      method = "GET",
+      description = "Verify OTP token"
   )
   @ApiResponses(
-      value = { @ApiResponse(code = HTTPStatus.OK, message = "Request fulfilled"),
-          @ApiResponse(code = HTTPStatus.BAD_REQUEST, message = "Invalid query input"),
-          @ApiResponse(code = HTTPStatus.UNAUTHORIZED, message = "Unauthorized operation"),
-          @ApiResponse(code = HTTPStatus.INTERNAL_ERROR, message = "Internal server error"), }
+      value = { @ApiResponse(responseCode = "200", description = "Request fulfilled"),
+          @ApiResponse(responseCode = "400", description = "Invalid query input"),
+          @ApiResponse(responseCode = "401", description = "Unauthorized operation"),
+          @ApiResponse(responseCode = "500", description = "Internal server error"), }
   )
   public Response verifyToken(@Context HttpServletRequest request,
-                              @ApiParam(value = "Token to verify", required = true) @QueryParam("token") String token) {
+                              @Parameter(description = "Token to verify", required = true) @QueryParam("token") String token) {
   
     String userId=null;
     try {
