@@ -83,8 +83,7 @@ public class MfaRestServiceTest {
     assertEquals(200,response.getStatus());
     assertEquals(
         "{\"requests\":["
-            + "{\"id\":0,\"type\":\"otp\",\"username\":\"john\"},"
-            + "{\"id\":1,\"type\":\"otp\",\"username\":\"mary\"}"
+                     + "{\"type\":\"otp\",\"id\":0,\"username\":\"john\"}," + "{\"type\":\"otp\",\"id\":1,\"username\":\"mary\"}"
             + "]}",response.getEntity().toString());
 
   }
