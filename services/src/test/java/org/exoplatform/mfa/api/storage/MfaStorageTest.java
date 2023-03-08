@@ -40,29 +40,22 @@ public class MfaStorageTest {
   @Before
   public void setup() {
 
-    RootContainer rootContainer = RootContainer.getInstance();
-    InitialContextInitializer initializer = rootContainer.getComponentInstanceOfType(InitialContextInitializer.class);
-    initializer.recall();
+    PortalContainer container = PortalContainer.getInstance();
 
     brandingService = mock(BrandingServiceImpl.class);
-    if (rootContainer.getComponentInstanceOfType(BrandingService.class) == null) {
-      rootContainer.registerComponentInstance(BrandingService.class.getName(), brandingService);
+    if (container.getComponentInstanceOfType(BrandingService.class) == null) {
+      container.registerComponentInstance(BrandingService.class.getName(), brandingService);
     }
 
     featureService = mock(ExoFeatureService.class);
-    if (rootContainer.getComponentInstanceOfType(ExoFeatureService.class) == null) {
-      rootContainer.registerComponentInstance(ExoFeatureService.class.getName(), featureService);
+    if (container.getComponentInstanceOfType(ExoFeatureService.class) == null) {
+      container.registerComponentInstance(ExoFeatureService.class.getName(), featureService);
     }
 
     resourceBundleService = mock(ResourceBundleService.class);
-    if (rootContainer.getComponentInstanceOfType(ResourceBundleService.class) == null) {
-      rootContainer.registerComponentInstance(ResourceBundleService.class.getName(), resourceBundleService);
+    if (container.getComponentInstanceOfType(ResourceBundleService.class) == null) {
+      container.registerComponentInstance(ResourceBundleService.class.getName(), resourceBundleService);
     }
-    container = PortalContainer.getInstance();
-    assertNotNull(container);
-
-    ExoContainerContext.setCurrentContainer(container);
-
 
     RequestLifeCycle.begin(container);
   }
@@ -71,12 +64,7 @@ public class MfaStorageTest {
   public void teardown() {
     RevocationRequestDAO revocationRequestDAO = ExoContainerContext.getService(RevocationRequestDAO.class);
     revocationRequestDAO.deleteAll();
-
-
     RequestLifeCycle.end();
-    container.stop();
-    container = null;
-    ExoContainerContext.setCurrentContainer(null);
   }
 
   @Test
