@@ -139,10 +139,8 @@
                 <v-list-item-content class="flex-nowrap">
                   <div class="flex-shrink-1">
                     <exo-user-avatar
-                      :username="request.username"
-                      :fullname="request.fullname"
-                      :external="request.isExternal"
-                      :retrieve-extra-information="false" />
+                      :profile-id="request.username"
+                    />
                   </div>
                   <v-btn
                     v-exo-tooltip.bottom.body="$t('authentication.multifactor.revocation.action.accept')"
