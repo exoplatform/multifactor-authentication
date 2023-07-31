@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.mfa.api.MfaService;
@@ -41,21 +42,26 @@ public class MfaFilter implements Filter {
     HttpServletRequest httpServletRequest = (HttpServletRequest) request;
     HttpServletResponse httpServletResponse = (HttpServletResponse) response;
     HttpSession session = httpServletRequest.getSession();
-    ExoContainer container = PortalContainer.getInstance();
+    PortalContainer container = PortalContainer.getInstance();
     MfaService mfaService = container.getComponentInstanceOfType(MfaService.class);
 
     String requestUri = httpServletRequest.getRequestURI();
-    if (httpServletRequest.getRemoteUser() != null &&
-        mfaService.isMfaFeatureActivated() &&
-        excludedUrls.stream().noneMatch(requestUri::startsWith) &&
-        (mfaService.isProtectedUri(requestUri) ||
-            mfaService.currentUserIsInProtectedGroup(ConversationState.getCurrent().getIdentity())) &&
-        shouldAuthenticateFromSession(session)) {
+    if (httpServletRequest.getRemoteUser() != null && mfaService.isMfaFeatureActivated() && (mfaService.isProtectedUri(requestUri)
+        || mfaService.currentUserIsInProtectedGroup(ConversationState.getCurrent().getIdentity()))) {
+      if (shouldAuthenticateFromSession(session) && excludedUrls.stream().noneMatch(requestUri::startsWith)) {
         LOG.debug("Mfa Filter must redirect on page to fill token");
-        httpServletResponse.sendRedirect(MFA_URI+"?initialUri=" + requestUri);
+        httpServletResponse.sendRedirect(MFA_URI + "?initialUri=" + requestUri);
         return;
+      } else if (!shouldAuthenticateFromSession(session) && requestUri.startsWith(MFA_URI)) {
+        String queryString = httpServletRequest.getQueryString();
+        String initialUri = "/";
+        if (StringUtils.isNotBlank(queryString) && queryString.contains("initialUri=")) {
+          initialUri = queryString.substring(11);
+        }
+        httpServletResponse.sendRedirect(initialUri);
+        return;
+      }
     }
-
     chain.doFilter(request, response);
 
   }
