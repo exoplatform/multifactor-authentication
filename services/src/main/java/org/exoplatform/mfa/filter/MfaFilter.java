@@ -42,7 +42,7 @@ public class MfaFilter implements Filter {
     HttpServletRequest httpServletRequest = (HttpServletRequest) request;
     HttpServletResponse httpServletResponse = (HttpServletResponse) response;
     HttpSession session = httpServletRequest.getSession();
-    ExoContainer container = PortalContainer.getInstance();
+    PortalContainer container = PortalContainer.getInstance();
     MfaService mfaService = container.getComponentInstanceOfType(MfaService.class);
 
     String requestUri = httpServletRequest.getRequestURI();
