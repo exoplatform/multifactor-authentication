@@ -15,7 +15,7 @@
     <rest.api.doc.version>1.0</rest.api.doc.version>
     <rest.api.doc.description>Mfa addon Rest endpoints</rest.api.doc.description>
 
-    <exo.test.coverage.ratio>0.64</exo.test.coverage.ratio>
+    <exo.test.coverage.ratio>0.69</exo.test.coverage.ratio>
   </properties>
   <dependencies>
     <!-- PLF dependencies -->
