@@ -20,36 +20,45 @@ import org.exoplatform.commons.api.notification.NotificationContext;
 import org.exoplatform.commons.api.notification.annotation.TemplateConfig;
 import org.exoplatform.commons.api.notification.annotation.TemplateConfigs;
 import org.exoplatform.commons.api.notification.channel.template.AbstractTemplateBuilder;
+import org.exoplatform.commons.api.notification.channel.template.TemplateProvider;
 import org.exoplatform.commons.api.notification.model.MessageInfo;
+import org.exoplatform.commons.api.notification.model.NotificationInfo;
 import org.exoplatform.commons.api.notification.model.PluginKey;
+import org.exoplatform.commons.api.notification.service.template.TemplateContext;
 import org.exoplatform.container.xml.InitParams;
 import org.exoplatform.mfa.notifications.plugin.MfaAdminRevocationRequestPlugin;
 import org.exoplatform.mfa.notifications.utils.MfaNotificationUtils;
+import org.exoplatform.social.core.identity.model.Identity;
+import org.exoplatform.social.core.identity.provider.OrganizationIdentityProvider;
+import org.exoplatform.social.notification.Utils;
 
 import java.io.Writer;
-import java.util.HashMap;
-import java.util.Map;
 
 @TemplateConfigs(templates = {
     @TemplateConfig(pluginId = MfaAdminRevocationRequestPlugin.ID, template = "war:/notifications/templates/push/MfaAdminRevocationRequestPlugin.gtmpl")
 })
-public class PushTemplateProvider extends WebTemplateProvider {
-
-  private final Map<PluginKey, AbstractTemplateBuilder> webTemplateBuilders = new HashMap<>();
+public class PushTemplateProvider extends TemplateProvider {
 
   public PushTemplateProvider(InitParams initParams) {
     super(initParams);
-    this.webTemplateBuilders.putAll(this.templateBuilders);
-    this.templateBuilders.put(PluginKey.key(MfaAdminRevocationRequestPlugin.ID), mfaRevocationRequest);
+    this.templateBuilders.put(PluginKey.key(MfaAdminRevocationRequestPlugin.ID), new TemplateBuilder());
   }
 
   /** Defines the template builder for MfaRevocationRequestPlugin*/
-  private AbstractTemplateBuilder mfaRevocationRequest = new AbstractTemplateBuilder() {
-
+  private class TemplateBuilder extends AbstractTemplateBuilder {
     @Override
     protected MessageInfo makeMessage(NotificationContext ctx) {
-      MessageInfo messageInfo = webTemplateBuilders.get(new PluginKey(MfaAdminRevocationRequestPlugin.ID)).buildMessage(ctx);
+      NotificationInfo notification = ctx.getNotificationInfo();
+      String language = getLanguage(notification);
+      TemplateContext
+          templateContext = TemplateContext.newChannelInstance(getChannelKey(), notification.getKey().getId(), language);
+      Identity identity =
+          Utils.getIdentityManager().getOrCreateIdentity(OrganizationIdentityProvider.NAME, notification.getValueOwnerParameter(
+              "username"));
+      templateContext.put("USER", Utils.addExternalFlag(identity));
+      ctx.setException(templateContext.getException());
 
+      MessageInfo messageInfo = new MessageInfo();
       return messageInfo.subject(MfaNotificationUtils.getMfaAdminURL()).end();
     }
 
@@ -57,5 +66,5 @@ public class PushTemplateProvider extends WebTemplateProvider {
     protected boolean makeDigest(NotificationContext ctx, Writer writer) {
       return false;
     }
-  };
+  }
 }

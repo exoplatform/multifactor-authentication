@@ -33,6 +33,10 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.log.Log;
 import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.organization.User;
+import org.exoplatform.social.core.identity.model.Identity;
+import org.exoplatform.social.core.identity.provider.OrganizationIdentityProvider;
+import org.exoplatform.social.notification.LinkProviderUtils;
+import org.exoplatform.social.notification.Utils;
 
 public class MfaAdminRevocationRequestPlugin extends BaseNotificationPlugin {
 
@@ -58,11 +62,19 @@ public class MfaAdminRevocationRequestPlugin extends BaseNotificationPlugin {
     @Override
     public NotificationInfo makeNotification(NotificationContext ctx) {
         String userId = ctx.value(MfaNotificationUtils.MFA_REVOCATION_REQUEST_REQUESTER);
+        Identity identity =
+            Utils.getIdentityManager().getOrCreateIdentity(OrganizationIdentityProvider.NAME, userId);
         try {
+
             List<String> recipients = getRecipients();
+
+
             recipients.remove(userId);
             return NotificationInfo.instance().key(getId())
                     .with("username", userId)
+                    .with("fullname", identity.getProfile().getFullName())
+                    .with("avatar", LinkProviderUtils.getUserAvatarUrl(identity.getProfile()))
+                    .with("url", MfaNotificationUtils.getMfaAdminURL())
                     .to(recipients);
         } catch (Exception e) {
             ctx.setException(e);

@@ -8,7 +8,8 @@ let config = {
   // can use multiple entry
   entry: {
     multifactorAuthentication : './src/main/webapp/vue-apps/multi-factor-authentication/main.js',
-    mfaAccess : './src/main/webapp/vue-apps/mfa-access/main.js'
+    mfaAccess : './src/main/webapp/vue-apps/mfa-access/main.js',
+    notificationExtension : './src/main/webapp/vue-apps/mfa-notifications/main.js'
   },
   plugins: [
     new ESLintPlugin({
