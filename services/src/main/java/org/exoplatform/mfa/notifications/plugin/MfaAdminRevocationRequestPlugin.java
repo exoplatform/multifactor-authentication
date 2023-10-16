@@ -62,7 +62,6 @@ public class MfaAdminRevocationRequestPlugin extends BaseNotificationPlugin {
     @Override
     public NotificationInfo makeNotification(NotificationContext ctx) {
         String userId = ctx.value(MfaNotificationUtils.MFA_REVOCATION_REQUEST_REQUESTER);
-        NotificationInfo notification = ctx.getNotificationInfo();
         Identity identity =
             Utils.getIdentityManager().getOrCreateIdentity(OrganizationIdentityProvider.NAME, userId);
         try {
