@@ -34,7 +34,7 @@
         <node>
           <name>multifactor-authentication</name>
           <label>#{portal.administration.multifactor-authentication}</label>
-          <icon>fas fa-user-shield</icon>
+          <icon>fab fa-keycdn</icon>
           <page-reference>portal::administration::multifactor-authentication</page-reference>
         </node>
       </node>
