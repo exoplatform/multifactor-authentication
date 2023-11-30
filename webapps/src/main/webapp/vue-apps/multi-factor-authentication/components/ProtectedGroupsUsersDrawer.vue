@@ -16,11 +16,6 @@
           :source-providers="[findGroups]"
           :placeholder="$t('authentication.multifactor.protected.groups.users.placeholder')" />
       </v-flex>
-      <v-card-text v-if="error">
-        <v-alert type="error">
-          {{ error }}
-        </v-alert>
-      </v-card-text>
     </template>
     <template slot="footer">
       <div class="d-flex ">
@@ -50,7 +45,6 @@ export default {
       groups: [],
       selectedGroups: [],
       searchLoading: false,
-      error: null,
       suggesterOptions: {
         type: 'tag',
         plugins: ['remove_button', 'restore_on_backspace'],
@@ -91,7 +85,6 @@ export default {
     },
     cancel() {
       this.drawer = false;
-      this.error = null;
     },
     save() {
       saveProtectedGroups(this.groups.join(','));
