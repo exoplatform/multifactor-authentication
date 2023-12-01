@@ -1,11 +1,5 @@
 <template>
   <v-app>
-    <v-alert
-      v-model="alert"
-      :type="type"
-      dismissible>
-      {{ message }}
-    </v-alert>
     <v-container class="pa-0">
       <div
         align="center"
@@ -77,18 +71,12 @@ export default {
       screen: '',
       secret: '',
       secretSrc: '',
-      alert: false,
-      type: '',
-      message: ''
     };
   },
   mounted() {
     this.$nextTick().then(() => this.$root.$emit('application-loaded'));
   },
   created() {
-    this.$root.$on('show-alert', message => {
-      this.displayMessage(message);
-    });
     window.setTimeout(() => {
       this.checkRegistration();
     }, 1000);
@@ -153,26 +141,14 @@ export default {
         body: 'OTP'
       }).then(resp => resp && resp.ok && resp.json())
         .then(data => {
-          if (data.result && data.result === 'true') {
-            this.$root.$emit('show-alert', {
-              type: 'success',
-              message: this.$t('mfa.otp.access.revocation.success')
-            });
-          } else {
-            this.$root.$emit('show-alert', {
-              type: 'warning',
-              message: this.$t('mfa.otp.access.revocation.warning')
-            });
-          }
-
-        });
+          const message = data?.result  === 'true' && this.$t('mfa.otp.access.revocation.success') || this.$t('mfa.otp.access.revocation.warning');
+          const type = data?.result  === 'true' && 'success' || 'warning';
+          document.dispatchEvent(new CustomEvent('alert-message', {detail: {
+              alertType: type,
+              alertMessage: message,
+            }}));
+        })
     },
-    displayMessage(message) {
-      this.message=message.message;
-      this.type=message.type;
-      this.alert = true;
-      window.setTimeout(() => this.alert = false, 5000);
-    }
   },
 };
 </script>
