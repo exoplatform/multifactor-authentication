@@ -1,11 +1,5 @@
 <template>
   <v-app id="multifactorAuthentication">
-    <v-alert
-      v-model="alert"
-      :type="type"
-      dismissible>
-      {{ message }}
-    </v-alert>
     <div v-if="!isManage2faPage" class="d-flex">
       <v-card class="my-8 mr-4 ml-4 border-radius firstBlock" flat>
         <v-list>
@@ -241,17 +235,11 @@ export default {
     currentMfaSystemHelpContent: null,
     panel: [0, 1],
     panel1: [0, 1],
-    alert: false,
-    type: '',
-    message: ''
   }),
   mounted() {
     this.$nextTick().then(() => this.$root.$emit('application-loaded'));
   },
   created() {
-    this.$root.$on('show-alert', message => {
-      this.displayMessage(message);
-    });
     this.$root.$on('protectedGroupsList', this.protectedGroupsList);
     this.getRevocationRequest();
     this.getMfaFeatureStatus();
@@ -335,19 +323,13 @@ export default {
             message = this.$t('mfa.otp.access.revocation.cancel.error');
           }
         }
-        this.$root.$emit('show-alert', {
-          type: type,
-          message: message
-        });
+        document.dispatchEvent(new CustomEvent('alert-message', {detail: {
+            alertType: type,
+            alertMessage: message,
+          }}));
         this.getRevocationRequest();
       });
     },
-    displayMessage(message) {
-      this.message=message.message;
-      this.type=message.type;
-      this.alert = true;
-      window.setTimeout(() => this.alert = false, 5000);
-    }
   }
 };
 </script>
