@@ -4,8 +4,8 @@ import org.exoplatform.commons.api.persistence.ExoTransactional;
 import org.exoplatform.commons.persistence.impl.GenericDAOJPAImpl;
 import org.exoplatform.mfa.storage.entity.RevocationRequestEntity;
 
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
+import jakarta.persistence.Query;
+import jakarta.persistence.TypedQuery;
 
 public class RevocationRequestDAO extends GenericDAOJPAImpl<RevocationRequestEntity, Long> {
 
