@@ -11,6 +11,7 @@
       <v-flex xs12 class="pa-3">
         <exo-identity-suggester
           v-model="groups"
+          item-text="spaceId"
           :ignore-items="ignoreItems"
           :labels="labels"
           :group-type="groupType"
@@ -87,12 +88,12 @@ export default {
                   id: `group:${group.groupName}`,
                   profile: {
                     avatarUrl: null,
-                    fullName: group.label,
-                    id: group.groupName
+                    fullName: group.id,
+                    id: group.groupName,
                   },
                   providerId: 'group',
                   remoteId: group.groupName,
-                  spaceId: null,                  
+                  spaceId: group.id,                  
                 });
               }
             }
