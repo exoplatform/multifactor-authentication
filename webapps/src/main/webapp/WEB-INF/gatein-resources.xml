@@ -80,6 +80,9 @@
         <module>commonVueComponents</module>
       </depends>
       <depends>
+        <module>suggester</module>
+      </depends>
+      <depends>
         <module>extensionRegistry</module>
       </depends>
     </module>
