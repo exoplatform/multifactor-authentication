@@ -107,7 +107,7 @@ export default {
         for (const group of data.entities) {
           groups.push({
             avatarUrl: null,
-            text: group.label,
+            text: group.id,
             value: group.id,
             type: 'group'
           });
