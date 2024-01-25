@@ -65,7 +65,7 @@
                   icon
                   outlined
                   small
-                  @click="$root.$emit('protectedGroupsUsers', selectedGroups)">
+                  @click="$root.$emit('protectedGroupsUsers', protectedGroupsUsers)">
                   <i class="uiIconEdit uiIconLightBlue pb-2"></i>
                 </v-btn>
               </template>
@@ -81,7 +81,7 @@
                 column>
                 <v-row no-gutters>
                   <v-chip
-                    v-for="group in selectedGroupsLabels"
+                    v-for="group in selectedGroups"
                     :key="group"
                     outlined
                     class="my-1">
@@ -221,7 +221,7 @@
   </v-app>
 </template>
 <script>
-import {changeMfaFeatureActivation, getRevocationRequests, updateRevocationRequest, getCurrentMfaSystem, changeMfaSytem, getProtectedGroups,getAvailableMfaSystem, getGroups} from '../multiFactorServices';
+import {changeMfaFeatureActivation, getRevocationRequests, updateRevocationRequest, getCurrentMfaSystem, changeMfaSytem, getProtectedGroups,getAvailableMfaSystem} from '../multiFactorServices';
 export default {
   data: () => ({
     isMultifacorAuthenticationEnabled: true,
@@ -235,7 +235,6 @@ export default {
     currentMfaSystemHelpContent: null,
     panel: [0, 1],
     panel1: [0, 1],
-    selectedGroupsLabels: [],
   }),
   mounted() {
     this.$nextTick().then(() => this.$root.$emit('application-loaded'));
@@ -247,28 +246,8 @@ export default {
     this.getCurrentMfaSystem();
     this.getAvailableMfaSystems();
     this.getProtectedGroups();
-    this.getSelectedGroupsLabels();
-  },
-  watch: {
-    selectedGroups() {
-      this.getSelectedGroupsLabels();
-    }
   },
   methods: {
-    getSelectedGroupsLabels() {
-      const labels= [];
-      this.selectedGroups.forEach(label => {
-        if (label) {
-          getGroups(label).then(data => {
-            for (const group of data.entities) {
-              if (label === group.groupName || label === group.remoteId){
-                labels.push(group.label);
-              }
-            }
-          });
-          this.selectedGroupsLabels = labels;
-        }});
-    },
     switchAuthenticationStatus() {
       changeMfaFeatureActivation(!this.isMultifacorAuthenticationEnabled);
       this.isMultifacorAuthenticationEnabled = !this.isMultifacorAuthenticationEnabled;
