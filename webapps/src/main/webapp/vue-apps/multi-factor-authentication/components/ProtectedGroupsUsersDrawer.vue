@@ -9,19 +9,12 @@
     </template>
     <template slot="content">
       <v-flex xs12 class="pa-3">
-        <exo-identity-suggester
+        <exo-group-suggester
           v-model="groups"
-          item-text="spaceId"
-          :ignore-items="ignoreItems"
-          :labels="labels"
-          :group-type="groupType"
-          all-groups-for-admin
-          multiple
-          include-groups
-          chips
-          danse
-          flat
-          required />
+          :options="suggesterOptions"
+          :bound-groups="groups"
+          :source-providers="[findGroups]"
+          :placeholder="$t('authentication.multifactor.protected.groups.users.placeholder')" />
       </v-flex>
     </template>
     <template slot="footer">
@@ -46,18 +39,30 @@
 import {getGroups, getProtectedGroups, saveProtectedGroups} from '../multiFactorServices';
 export default {
   data () {
+    const component = this;
     return {
       drawer: false,
       groups: [],
       selectedGroups: [],
-      ignoreItems: [],
       searchLoading: false,
-      groupType: 'GROUP',
-      labels: { 
-        label: '',
-        placeholder: this.$t('authentication.multifactor.protected.groups.users.placeholder'),  
-        searchPlaceholder: '',
-        noDataLabel: this.$t('authentication.multifactor.protected.noData')
+      suggesterOptions: {
+        type: 'tag',
+        plugins: ['remove_button', 'restore_on_backspace'],
+        create: false,
+        createOnBlur: false,
+        highlight: false,
+        openOnFocus: false,
+        valueField: 'value',
+        labelField: 'text',
+        searchField: ['text'],
+        closeAfterSelect: false,
+        dropdownParent: 'body',
+        hideSelected: false,
+        fillSelectize: true,
+        renderMenuItem(item, escape) {
+          return component.renderMenuItem(item, escape);
+        },
+        sortField: [{field: 'order'}, {field: '$score'}],
       }
     };
   },
@@ -72,49 +77,18 @@ export default {
   },
   created() {
     this.$root.$on('protectedGroupsUsers', this.protectedGroupsUsers);
-    this.ignoreItems = this.groups.map(group =>({id: `${group.remoteId}`}));
+    this.getProtectedGroups();
   },
   methods: {
-    protectedGroupsUsers(selectedGroups) {
-      this.groups = [];
-      this.selectedGroups = selectedGroups;
-      this.selectedGroups.forEach(remoteId => {
-        if (remoteId) {
-          getGroups(remoteId).then(data => {
-            for (const group of data.entities) {
-              if (remoteId === group.groupName || remoteId === group.remoteId){
-                this.groups.push({
-                  displayName: group.label,
-                  id: `group:${group.groupName}`,
-                  profile: {
-                    avatarUrl: null,
-                    fullName: group.id,
-                    id: group.groupName,
-                  },
-                  providerId: 'group',
-                  remoteId: group.groupName,
-                  spaceId: group.id,                  
-                });
-              }
-            }
-          });
-        }});
+    protectedGroupsUsers() {
       this.drawer = true;
     },
     cancel() {
       this.drawer = false;
     },
     save() {
-      const groups=[];
-      this.groups.forEach(group => {
-        if (group.remoteId){
-          groups.push(group.remoteId);
-        } else {
-          groups.push(group.profile.id);
-        }
-      });
-      saveProtectedGroups(groups.join(','));
-      this.$root.$emit('protectedGroupsList', groups);
+      saveProtectedGroups(this.groups.join(','));
+      this.$root.$emit('protectedGroupsList', this.groups);
       this.$refs.protectedGroupsUsersDrawer.close();
     },
     getProtectedGroups() {
@@ -123,19 +97,28 @@ export default {
           this.groups.push(group);
         }
       });
-      const groups= [];
-      this.selectedGroups.forEach(data => {
-        groups.push(getGroups(data).then(data => {
-          for (const group of data.entities) {
-            groups.push({profile: {
-              avatarUrl: null,
-              fullName: group.label,
-              id: group.id,
-              type: 'group'}
-            });
-          }
-        }));
+    },
+    findGroups (query, callback) {
+      if (!query.length) {
+        return callback();
+      }
+      getGroups(query).then(data => {
+        const groups = [];
+        for (const group of data.entities) {
+          groups.push({
+            avatarUrl: null,
+            text: group.id,
+            value: group.id,
+            type: 'group'
+          });
+        }
+        callback(groups);
       });
+    },
+    renderMenuItem (item, escape) {
+      return `
+        <div class="item" title="${escape(item.value)}" rel="tooltip" data-placement="bottom">${escape(item.value)}</div>
+      `;
     },
   },
 };
