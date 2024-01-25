@@ -9,7 +9,7 @@
   </parent>
   <groupId>org.exoplatform.addons.multifactor-authentication</groupId>
   <artifactId>multifactor-authentication-parent</artifactId>
-  <version>1.3.0</version>
+  <version>1.3.0-patched</version>
   <packaging>pom</packaging>
   <name>eXo MultiFactor Authentication - Parent POM</name>
 

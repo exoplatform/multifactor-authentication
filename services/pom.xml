@@ -4,7 +4,7 @@
   <parent>
     <artifactId>multifactor-authentication-parent</artifactId>
     <groupId>org.exoplatform.addons.multifactor-authentication</groupId>
-    <version>1.3.0</version>
+    <version>1.3.0-patched</version>
   </parent>
   <artifactId>multifactor-authentication-services</artifactId>
   <packaging>jar</packaging>
