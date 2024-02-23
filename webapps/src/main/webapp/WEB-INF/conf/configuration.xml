@@ -25,6 +25,5 @@
     <import>war:/conf/multifactor-authentication/mfa-configuration.xml</import>
     <import>war:/conf/multifactor-authentication/mfa-notifications-configuration.xml</import>
     <import>war:/conf/multifactor-authentication/portal-configuration.xml</import>
-    <import>war:/conf/multifactor-authentication/navigation-categories-configuration.xml</import>
 
 </configuration>
