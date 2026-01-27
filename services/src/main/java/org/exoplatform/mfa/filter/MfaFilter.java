@@ -1,6 +1,9 @@
 package org.exoplatform.mfa.filter;
 
 import java.io.IOException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,13 +53,20 @@ public class MfaFilter implements Filter {
         || mfaService.currentUserIsInProtectedGroup(ConversationState.getCurrent().getIdentity()))) {
       if (shouldAuthenticateFromSession(session) && excludedUrls.stream().noneMatch(requestUri::startsWith)) {
         LOG.debug("Mfa Filter must redirect on page to fill token");
-        httpServletResponse.sendRedirect(MFA_URI + "?initialUri=" + requestUri);
+        String queryString = httpServletRequest.getQueryString();
+        String fullUri = requestUri;
+        if (StringUtils.isNotBlank(queryString)) {
+            fullUri += "?" + queryString;
+        }
+        String encodedInitialUri = URLEncoder.encode(fullUri, StandardCharsets.UTF_8);
+        httpServletResponse.sendRedirect(MFA_URI + "?initialUri=" + encodedInitialUri);
         return;
       } else if (!shouldAuthenticateFromSession(session) && requestUri.startsWith(MFA_URI)) {
-        String queryString = httpServletRequest.getQueryString();
-        String initialUri = "/";
-        if (StringUtils.isNotBlank(queryString) && queryString.contains("initialUri=")) {
-          initialUri = queryString.substring(11);
+        String initialUri = httpServletRequest.getParameter("initialUri");
+        if (StringUtils.isBlank(initialUri)) {
+            initialUri = "/";
+        } else {
+            initialUri = URLDecoder.decode(initialUri, StandardCharsets.UTF_8);
         }
         httpServletResponse.sendRedirect(initialUri);
         return;
