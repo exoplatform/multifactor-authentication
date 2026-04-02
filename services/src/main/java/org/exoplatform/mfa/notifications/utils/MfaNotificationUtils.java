@@ -23,7 +23,7 @@ public class MfaNotificationUtils {
         + "/"
         + portal
         + "/"
-        + "g/:platform:administrators/multifactor-authentication";
+        + "administration/home/security/multifactor-authentication";
   }
 
 
