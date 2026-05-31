@@ -1,26 +1,25 @@
 package org.exoplatform.mfa.api.rest;
 
-import org.apache.http.impl.bootstrap.HttpServer;
-import org.exoplatform.component.test.AbstractKernelTest;
-import org.exoplatform.mfa.api.otp.OtpService;
-import org.exoplatform.mfa.rest.otp.OtpRestService;
-import org.exoplatform.services.security.ConversationState;
-import org.exoplatform.services.security.Identity;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.Mock;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import javax.ws.rs.core.Response;
-
 import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
+import javax.ws.rs.core.Response;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.Mock;
+
+import org.exoplatform.mfa.api.otp.OtpService;
+import org.exoplatform.mfa.rest.otp.OtpRestService;
+import org.exoplatform.services.security.ConversationState;
+import org.exoplatform.services.security.Identity;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 public class OtpRestServiceTest {
 
