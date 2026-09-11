@@ -32,8 +32,6 @@ import org.exoplatform.social.core.identity.model.Identity;
 import org.exoplatform.social.core.identity.provider.OrganizationIdentityProvider;
 import org.exoplatform.social.notification.Utils;
 
-import java.io.Writer;
-
 @TemplateConfigs(templates = {
     @TemplateConfig(pluginId = MfaAdminRevocationRequestPlugin.ID, template = "war:/notifications/templates/push/MfaAdminRevocationRequestPlugin.gtmpl")
 })
@@ -60,11 +58,6 @@ public class PushTemplateProvider extends TemplateProvider {
 
       MessageInfo messageInfo = new MessageInfo();
       return messageInfo.subject(MfaNotificationUtils.getMfaAdminURL()).end();
-    }
-
-    @Override
-    protected boolean makeDigest(NotificationContext ctx, Writer writer) {
-      return false;
     }
   }
 }
