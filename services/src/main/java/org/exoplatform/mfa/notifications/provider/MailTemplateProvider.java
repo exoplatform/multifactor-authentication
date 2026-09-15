@@ -21,8 +21,6 @@ import org.exoplatform.social.notification.LinkProviderUtils;
 import org.exoplatform.social.notification.Utils;
 import org.exoplatform.social.notification.plugin.SocialNotificationUtils;
 
-import java.io.Writer;
-
 @TemplateConfigs(templates = {
     @TemplateConfig(pluginId = MfaAdminRevocationRequestPlugin.ID, template = "war:/notifications/templates/mail/MfaAdminRevocationRequestPlugin.gtmpl"),
 })
@@ -65,11 +63,6 @@ public class MailTemplateProvider extends TemplateProvider {
       ctx.setException(templateContext.getException());
 
       return messageInfo.subject(subject).body(body).end();
-    }
-
-    @Override
-    protected boolean makeDigest(NotificationContext ctx, Writer writer) {
-      return false;
     }
   };
 }
