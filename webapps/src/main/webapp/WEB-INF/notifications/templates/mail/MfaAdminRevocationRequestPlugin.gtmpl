@@ -1,68 +1,45 @@
-<table width="80%" align="center" cellpadding="0" cellspacing="0" border="0">
+<table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" align="center" style="width:100%;overflow-wrap:anywhere;word-break:break-word;background-color: #ffffff; font-size: 15px;color: #1d2327;line-height: 1.7;font-family: ${io.meeds.portal.mail.EmailLayout.fontStack()};" dir="${io.meeds.portal.mail.EmailLayout.dir(_ctx.language)}">
+    <%
+      _templateContext.put("header_title", _ctx.appRes("Notification.title.MfaAdminRevocationRequestPlugin"));
+      _ctx.include("war:/notification/templates/mail/NotificationHeader.gtmpl", _templateContext);
+    %>
     <tr>
-        <td>
-            <table width="100%" cellpadding="0" cellspacing="0" border="0">
-                <!-- begin top-->
-                <tr bgcolor="#f5f5f5" >
-                    <td height="44" valign="middle" align="center" bgcolor="#d6d6d6" style="color: #476a98; border-bottom: 1px solid #ccc;">
-                        <h2 style="margin: 0;padding: 0; font-size: 16px;font-family: 'Helvetica', 'Arial', sans-serif;">
-                          <%=_ctx.appRes("Notification.title.MfaAdminRevocationRequestPlugin")%>
-                        </h2>
-                    </td>
-                </tr>
-                <!--end top-->
-
-                <!--begin body-->
-                <tr align="center">
-                    <td align="center" style="padding: 25px 0 25px">
-                        <table width="90%" cellpadding="0" cellspacing="0" >
+        <td style="padding:0 24px;">
+            <table role="presentation" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="max-width:600px;margin:0 auto;background-color: #ffffff;">
+                <tr>
+                    <td bgcolor="#ffffff" style="background-color: #ffffff;">
+                        <table border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ffffff" style="background-color: #ffffff; color: #1d2327;line-height: 1.7;">
                             <tr>
-                                <td align="left" style="line-height: 18px;font-size: 14px;color:#333;font-family: 'Helvetica', 'Arial', sans-serif;">
-                                    <p style="margin: 0 0 10px 0;line-height: 40px;font-size: 17px;text-transform: capitalize"><%=_ctx.appRes("Notification.mail.MfaAdminRevocationRequestPlugin.Hello")%>,</p>
-                                    <table border="0" cellpadding="0" cellspacing="0" >
-                                      <tr>
-                                        <!--[if mso]>
-                                            <td valign="top" width="90" bgcolor="#ffffff" style="background-color: #ffffff;">
-                                                <img width="75" height="75" border="1" style="margin-top: 6px;border-radius: 4px;border: 1px solid #c7c7c7;" src="$AVATAR" alt="<%=_ctx.escapeHTML(USER)%>" />
-                                            </td>
-                                        <![endif]-->
-                                        <td valign="top" width="90px" bgcolor="#ffffff" style="background-color: #ffffff; mso-hide:all;">
-                                             <img width="75px" height="75px" style="margin-top: 6px;border-radius: 4px;border: 1px solid #c7c7c7;" src="$AVATAR" alt="<%=_ctx.escapeHTML(USER)%>" />
-                                        </td>
-                                        <td  valign="top" style="margin-top: 0px;">
-                                          <p style="margin: 0 0 10px 0; line-height: 22px; color: #333333; font-size:13px; font-family:'HelveticaNeue bold',verdana,arial,tahoma">
-                                            <%
-                                              String profileUrl = "<strong><a target=\"_blank\" style=\"color: #2f5e92; font-size: 13px; text-decoration: none; font-family: 'HelveticaNeue Bold', Helvetica, Arial, sans-serif\" href=\""+ PROFILE_URL + "\">" + _ctx.escapeHTML(USER) + "</a></strong>";
-                                            %>
-                                            <%=_ctx.appRes("Notification.intranet.message.MfaAdminRevocationRequestPlugin", profileUrl)%>
-                                          </p>
-                                        </td>
-                                      </tr>
-                                    </table>
-
-                                    <table width="100%" cellpadding="0" cellspacing="0" style="font-size: inherit;color: #333333;">
+                                <td align="${io.meeds.portal.mail.EmailLayout.start(_ctx.language)}" bgcolor="#ffffff" style="background-color: #ffffff;padding: 30px 0 10px 0;" dir="auto">
+                                    <p style="margin: 0 0 14px; font-size: 15px; color: #1d2327; font-family: ${io.meeds.portal.mail.EmailLayout.fontStack()};" dir="auto"><%=_ctx.appRes("Notification.label.SayHello")%> <%=_ctx.escapeHTML(FIRSTNAME)%>,</p>
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin: 0 0 10px;">
                                         <tr>
-                                            <td>
-                                                <a href="$MFA_ADMIN_PAGE_URL" style="text-decoration: none;color: #fff;border-radius: 3px;padding: 4px 14px;background-color: #476A9C;display:inline-table;"><%=_ctx.appRes("Notification.mail.MfaAdminRevocationRequestPlugin.administration")%></a>
+                                            <!--[if mso]>
+                                            <td width="64" valign="top">
+                                                <img width="44" height="44" style="margin-top: 2px; border-radius: 50%;" src="$AVATAR" alt="<%=_ctx.escapeHTML(USER)%>" />
+                                            </td>
+                                            <![endif]-->
+                                            <td width="64" valign="top" style="mso-hide:all; vertical-align: top; ">
+                                                <img width="44" height="44" style="margin-top: 2px; border-radius: 50%; display: block;" src="$AVATAR" alt="<%=_ctx.escapeHTML(USER)%>" />
+                                            </td>
+                                            <td valign="top" style="vertical-align: top;" dir="auto">
+                                                <%
+                                                  String profileUrl = "<a target=\"_blank\" style=\"color: ${io.meeds.portal.mail.EmailLayout.linkColor()}; text-decoration: none; font-weight: bold; font-family: ${io.meeds.portal.mail.EmailLayout.fontStack()};\" href=\""+ PROFILE_URL + "\">" + _ctx.escapeHTML(USER) + "</a>";
+                                                %>
+                                                <p style="margin:0; color:#1d2327; line-height:1.7; font-size:15px; font-family: ${io.meeds.portal.mail.EmailLayout.fontStack()};" dir="auto"><%=_ctx.appRes("Notification.intranet.message.MfaAdminRevocationRequestPlugin", profileUrl)%></p>
                                             </td>
                                         </tr>
                                     </table>
+                                    <div dir="${io.meeds.portal.mail.EmailLayout.dir(_ctx.language)}" style="margin: 20px 0 8px 0;">
+                                        <%=io.meeds.portal.mail.EmailLayout.actionLink(_ctx.appRes("Notification.mail.MfaAdminRevocationRequestPlugin.administration"), "$MFA_ADMIN_PAGE_URL", true)%>
+                                    </div>
                                 </td>
                             </tr>
                         </table>
                     </td>
                 </tr>
-                <!--end body-->
-
-                <!-- begin footer-->
-                <tr>
-                    <td height="38" valign="middle" align="center" bgcolor="#476A9C" style="color:#fff;font-family: 'Helvetica', 'Arial', sans-serif;border-radius: 4px;">
-                        <h2 style="color: #fff;margin: 0;padding: 0; font-size: 16px;"><%=_ctx.appRes("Notification.mail.MfaAdminRevocationRequestPlugin.footer")%></h2>
-                    </td>
-                </tr>
-                <!--end footer-->
-
             </table>
         </td>
-    </tr>
+    </tr><!--end content area-->
+    <% _ctx.include("war:/notification/templates/mail/NotificationFooter.gtmpl", _templateContext);%>
 </table>
